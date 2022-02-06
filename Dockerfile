@@ -1,9 +1,11 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 RUN apt-get -y update && apt-get -y upgrade
-RUN apt-get -y install openjdk-8-jdk wget
+RUN apt-get -y install openjdk-8-jdk wget maven git
 RUN mkdir /usr/local/tomcat
 RUN wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.58/bin/apache-tomcat-9.0.58.tar -O /tmp/tomcat.tar.gz
 RUN cd /tmp && tar xvfz tomcat.tar.gz
 RUN cp -Rv /tmp/apache-tomcat-9.0.58/* /usr/local/tomcat/
+RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello
+RUN cd boxfuse-sample-java-war-hello && mvn package
 EXPOSE 8080
 CMD /usr/local/tomcat/bin/catalina.sh run
